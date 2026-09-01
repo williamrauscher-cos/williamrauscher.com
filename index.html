@@ -1,0 +1,2543 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>William Rauscher</title>
+<style>
+@font-face {
+  font-family: 'Neue Haas Grotesk';
+  src: url('fonts/NHGPro55Romanfont.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk';
+  src: url('fonts/NHGPro65Mediumfont.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Tiempos Text';
+  src: url('fonts/tiempos-text-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Tiempos Text';
+  src: url('fonts/tiempos-text-regular-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+/* ============================================================
+   williamrauscher.com — shared styles (Prototype)
+   Mirrors the case-study inline styles so METHOD / About pages
+   match exactly, plus the independent nav-scroll fix and the
+   few classes the METHOD pages add.
+   ============================================================ */
+
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --active: #999999;
+  --border: rgba(0,0,0,0.10);
+  --secondary: rgba(0,0,0,0.60);
+  --label: rgba(0,0,0,0.50);
+  --charcoal: #21202E;
+  --lavender: #BBAACC;
+  --font-structural: 'Neue Haas Grotesk', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-editorial: 'Tiempos Text', Georgia, serif;
+  --font-authored: 'Tiempos Text', Georgia, serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font-structural);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+.site-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  column-gap: 64px;
+  align-items: start;
+}
+
+/* ---------- NARROW COLUMN (independently scrollable) ---------- */
+.col-narrow {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  overflow-y: auto;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.20) transparent;
+}
+.col-narrow::-webkit-scrollbar { width: 8px; }
+.col-narrow::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
+.col-narrow::-webkit-scrollbar-track { background: transparent; }
+
+.site-name {
+  display: block;
+  font-family: var(--font-structural);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.index-section { margin-top: 48px; }
+.index-section:first-of-type { margin-top: 40px; }
+
+.index-section-label {
+  display: block;
+  font-family: var(--font-structural);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--label);
+  margin-bottom: 16px;
+}
+
+.index-list { list-style: none; }
+.index-list li { margin-bottom: 8px; }
+.index-list li:last-child { margin-bottom: 0; }
+
+.index-entry {
+  display: block;
+  font-family: var(--font-structural);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--black);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+.index-entry:hover { color: var(--active); }
+.index-entry.active { color: var(--active); }
+.index-entry:focus-visible { outline: 2px solid var(--black); outline-offset: 2px; }
+
+.external-link {
+  display: inline-block;
+  font-family: var(--font-structural);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--black);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+.external-link:hover { color: var(--active); }
+
+/* ---------- WIDE COLUMN ---------- */
+.col-wide { min-width: 0; }
+
+.work-title {
+  font-family: var(--font-structural);
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 52px;
+  letter-spacing: -0.01em;
+  color: var(--black);
+}
+
+.work-meta {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  column-gap: 24px;
+  row-gap: 0;
+  max-width: 640px;
+  margin-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.meta-label {
+  font-family: var(--font-structural);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--label);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.meta-value {
+  font-family: var(--font-structural);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--black);
+  padding: 10px 0 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.work-prose {
+  font-family: var(--font-editorial);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  color: var(--black);
+  max-width: 640px;
+  margin-top: 32px;
+}
+.work-prose em { font-style: italic; }
+.work-prose + .work-prose { margin-top: 24px; }
+
+.case-study-image-full { margin-top: 56px; }
+.case-study-image-full img,
+.case-study-image-full video { width: 100%; display: block; height: auto; }
+
+.image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-placeholder--hero { aspect-ratio: 16 / 8; }
+
+.image-placeholder-text {
+  font-family: var(--font-structural);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--label);
+  text-align: center;
+  padding: 0 24px;
+}
+
+.image-caption {
+  font-family: var(--font-structural);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--secondary);
+  max-width: 640px;
+  margin-top: 12px;
+  text-wrap: pretty;
+}
+.image-caption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 150ms ease;
+}
+.image-caption a:hover { color: var(--black); }
+
+/* ---------- METHOD-page additions ---------- */
+.essay-markdown-link {
+  display: inline-block;
+  font-family: var(--font-structural);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  margin-top: 20px;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+.essay-markdown-link:hover { color: var(--black); border-color: var(--black); }
+
+/* diagram leads each essay; sits inside the same 640-wide frame */
+.method-diagram {
+  max-width: 640px;
+  margin-top: 40px;
+  padding: 32px 28px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.015);
+}
+.method-diagram svg { width: 100%; height: auto; display: block; }
+.method-diagram .desktop-diagram { display: block; }
+.method-diagram .mobile-diagram { display: none; }
+.diagram-caption {
+  font-family: var(--font-structural);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--secondary);
+  max-width: 640px;
+  margin-top: 12px;
+  text-wrap: pretty;
+}
+
+/* diagram shared SVG text classes (dialogue + loop) */
+.node-label { font-size: 13px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase; fill: #000; font-family: var(--font-structural); }
+.node-sub { font-size: 12px; fill: rgba(0,0,0,.6); font-family: var(--font-authored); font-style: italic; }
+.node-tag { font-size: 11px; fill: rgba(0,0,0,.5); text-transform: uppercase; letter-spacing: .04em; font-family: var(--font-structural); }
+.dot { fill: #000; }
+.dot-dim { fill: #21202e; }
+.arrow-line { fill: none; stroke: #000; stroke-width: 1.5; }
+.dlabel { font-size: 11px; fill: rgba(0,0,0,.55); text-transform: uppercase; letter-spacing: .06em; font-family: var(--font-structural); }
+.loop-path { fill: none; stroke: #000; stroke-width: 1.5; }
+.gap-note { font-size: 12px; font-style: italic; fill: rgba(0,0,0,.6); font-family: var(--font-authored); }
+
+/* Art of the Prompt — four-step table */
+.prompt-table {
+  width: 100%;
+  max-width: 640px;
+  border-collapse: collapse;
+  font-family: var(--font-structural);
+}
+.prompt-table th,
+.prompt-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 12px 12px 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  line-height: 18px;
+}
+.prompt-table thead th {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--label);
+  font-weight: 400;
+}
+.prompt-table tbody td { color: var(--black); }
+.prompt-table .row-world {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--label);
+  white-space: nowrap;
+}
+.prompt-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.prompt-step .num {
+  width: 22px; height: 22px; flex: 0 0 22px;
+  border-radius: 50%;
+  background: var(--black);
+  color: var(--white);
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* About landing — intro bio (mirrors Case Studies V2 About Me) */
+.short-bio {
+  font-family: var(--font-structural);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  color: var(--secondary);
+  max-width: 560px;
+  text-wrap: pretty;
+}
+
+/* About — contact block */
+.contact-block {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.contact-line {
+  font-family: var(--font-structural);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--black);
+  text-decoration: none;
+  width: fit-content;
+  transition: color 150ms ease;
+}
+.contact-line:hover { color: var(--active); }
+
+/* METHOD — subhead beneath the title, above the markdown link */
+.method-subhead {
+  font-family: var(--font-authored);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+  color: var(--black);
+  max-width: 640px;
+  margin-top: 16px;
+  text-wrap: pretty;
+}
+
+/* About — position statement (mirrors Case Studies V2 About Me) */
+.position-statement {
+  font-family: var(--font-authored);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 34px;
+  color: var(--black);
+  max-width: 640px;
+  text-wrap: pretty;
+}
+.position-statement em { font-style: italic; }
+.position-statement + .position-statement { margin-top: 24px; }
+.case-study-image-full + .position-statement { margin-top: 40px; }
+
+/* Responsive video embed (Vimeo) */
+.video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+.video-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* Embedded PDF (On Acid book preview) */
+.pdf-embed {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 4 / 3;
+}
+.pdf-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* Art of the Prompt — four-step sequence */
+.prompt-sequence {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: start;
+  gap: 0;
+  width: 100%;
+  max-width: 640px;
+}
+.prompt-node {
+  position: relative;
+  text-align: center;
+  padding: 0 8px;
+}
+.prompt-node .num {
+  width: 36px; height: 36px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-structural);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prompt-node .node-title {
+  font-family: var(--font-structural);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+.prompt-node .node-examples {
+  font-family: var(--font-authored);
+  font-style: italic;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--secondary);
+  text-wrap: pretty;
+}
+/* black arrow from each node to the next */
+.prompt-node:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: -6px;
+  width: 12px;
+  height: 12px;
+  border-top: 1.5px solid var(--black);
+  border-right: 1.5px solid var(--black);
+  transform: translateY(-50%) rotate(45deg);
+}
+.prompt-node:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 100%;
+  height: 1.5px;
+  background: var(--black);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1023px) {
+  .site-wrapper { grid-template-columns: 35% 65%; column-gap: 32px; padding: 48px 24px; }
+  .work-title { font-size: 36px; line-height: 44px; }
+}
+
+@media (max-width: 767px) {
+  .site-wrapper { grid-template-columns: 1fr; row-gap: 40px; padding: 32px 16px; }
+  .col-narrow { position: static; height: auto; overflow: visible; padding-top: 0; padding-bottom: 0; }
+  .work-title { font-size: 30px; line-height: 38px; }
+  .work-prose { font-size: 17px; line-height: 28px; }
+  .work-meta { grid-template-columns: 100px 1fr; }
+  .method-diagram .desktop-diagram { display: none; }
+  .method-diagram .mobile-diagram { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0ms !important; }
+}
+
+
+
+/* combined-prototype additions */
+.trust-svg text { font-family: var(--font-structural); }
+.page { display: none; }
+.page.active { display: block; }
+
+</style>
+</head>
+<body>
+
+<section class="page" id="page-about">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+    <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <p class="short-bio">William Rauscher is a brand builder, creative strategist and verbal designer based in New York. He builds the brand foundations that give organizations something real to say—and the language systems to say it well. His background spans journalism, a PhD and professorship in German literature, and twenty years of brand development for global leaders and category disruptors.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/About Me.png" alt="William Rauscher">
+      <p class="image-caption"><a href="#page-undercurrent">Undercurrent exhibition, 2021</a></p>
+    </div>
+
+    <p class="position-statement">Language is infrastructure. With the right message and tone, brands can escape the dead zone of marketing speak and engage in meaningful dialogue with the people who matter to them most, from big bold campaigns to customer support. Verbal identity does more than perfect your words—it turns strategy into a story you can feel and visual expression into a world that welcomes you in.</p>
+
+    <p class="position-statement">I design verbal systems that integrate writing craft and intelligent technology to help organizations tell their stories at scale—brand narratives, messaging, tone of voice, story engines, and that X-factor bit of poetic flair that give a brand the structure and originality it needs to tell its ownmost story to the world.</p>
+
+    <p class="position-statement">The clients have included the New York Times, Sandals Resorts, Equinox, Google and Microsoft. The work has yielded global campaigns, brand identities, AI-powered voice tools, editorial platforms, and a few things harder to categorize.</p>
+
+    <div class="contact-block">
+      <a class="contact-line" href="https://www.linkedin.com/in/williamrauscher/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="contact-line" href="mailto:williamrauscher@gmail.com">Email</a>
+    </div>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-method-brand-as-dialogue">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+    <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry active" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Brand as Dialogue</h1>
+
+    <p class="method-subhead">Want to connect more deeply with your audience? Let's talk.</p>
+
+    <a class="essay-markdown-link" href="brand-as-dialogue.md">Essay Markdown ↗</a>
+
+    <div class="method-diagram">
+      <svg class="desktop-diagram" viewBox="0 0 860 460" width="100%" role="img" aria-label="The brand, a group of people, in ongoing dialogue with the audience, another group of people">
+      <defs>
+      <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#000"></path></marker>
+      <marker id="arrowL" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#000"></path></marker>
+      </defs>
+      <circle cx="150" cy="150" r="10" class="dot"></circle>
+      <circle cx="185" cy="130" r="10" class="dot"></circle>
+      <circle cx="120" cy="185" r="10" class="dot"></circle>
+      <circle cx="165" cy="200" r="10" class="dot-dim"></circle>
+      <circle cx="200" cy="175" r="10" class="dot"></circle>
+      <circle cx="135" cy="130" r="10" class="dot"></circle>
+      <text x="160" y="255" text-anchor="middle" class="node-tag">One Side</text>
+      <text x="160" y="278" text-anchor="middle" class="node-label">The Brand</text>
+      <text x="160" y="300" text-anchor="middle" class="node-sub">a committee inside an organization</text>
+      <circle cx="700" cy="140" r="10" class="dot"></circle>
+      <circle cx="730" cy="165" r="10" class="dot"></circle>
+      <circle cx="670" cy="170" r="10" class="dot"></circle>
+      <circle cx="705" cy="195" r="10" class="dot"></circle>
+      <circle cx="655" cy="140" r="10" class="dot"></circle>
+      <circle cx="735" cy="125" r="10" class="dot"></circle>
+      <circle cx="680" cy="210" r="10" class="dot"></circle>
+      <text x="695" y="255" text-anchor="middle" class="node-tag">Other Side</text>
+      <text x="695" y="278" text-anchor="middle" class="node-label">The Audience</text>
+      <text x="695" y="300" text-anchor="middle" class="node-sub">a statistical distribution</text>
+      <path d="M 230 150 C 320 110, 500 110, 590 145" class="arrow-line" marker-end="url(#arrowR)"></path>
+      <text x="410" y="105" text-anchor="middle" class="dlabel">Message</text>
+      <path d="M 590 200 C 500 240, 320 240, 230 205" class="arrow-line" marker-end="url(#arrowL)"></path>
+      <text x="410" y="260" text-anchor="middle" class="dlabel">Response</text>
+      <rect x="110" y="340" width="100" height="66" rx="2" fill="none" stroke="#000" stroke-width="1.5"></rect>
+      <line x1="128" y1="360" x2="192" y2="360" stroke="#000" stroke-width="1"></line>
+      <line x1="128" y1="374" x2="192" y2="374" stroke="#000" stroke-width="1"></line>
+      <line x1="128" y1="388" x2="170" y2="388" stroke="#000" stroke-width="1"></line>
+      <path d="M 160 320 C 160 328, 160 332, 160 340" class="arrow-line" stroke-dasharray="3 4"></path>
+      <text x="160" y="430" text-anchor="middle" class="node-tag">Governed By</text>
+      <text x="160" y="452" text-anchor="middle" class="node-sub">the series bible</text>
+      <path d="M 695 320 C 695 328, 695 332, 695 340" class="arrow-line" stroke-dasharray="3 4"></path>
+      <text x="695" y="373" text-anchor="middle" class="node-tag">Governed By</text>
+      <text x="695" y="395" text-anchor="middle" class="node-sub">psychology and</text>
+      <text x="695" y="413" text-anchor="middle" class="node-sub">environment</text>
+      </svg>
+
+      <svg class="mobile-diagram" viewBox="0 0 380 720" width="100%" role="img" aria-label="The brand, a group of people, in ongoing dialogue with the audience, another group of people">
+      <defs>
+      <marker id="arrowD" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#000"></path></marker>
+      <marker id="arrowU" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#000"></path></marker>
+      </defs>
+      <circle cx="160" cy="60" r="10" class="dot"></circle>
+      <circle cx="195" cy="42" r="10" class="dot"></circle>
+      <circle cx="130" cy="42" r="10" class="dot"></circle>
+      <circle cx="160" cy="24" r="10" class="dot-dim"></circle>
+      <circle cx="195" cy="78" r="10" class="dot"></circle>
+      <circle cx="125" cy="78" r="10" class="dot"></circle>
+      <text x="160" y="115" text-anchor="middle" class="node-tag">One Side</text>
+      <text x="160" y="137" text-anchor="middle" class="node-label">The Brand</text>
+      <text x="160" y="158" text-anchor="middle" class="node-sub">a committee inside an organization</text>
+      <path d="M 130 195 C 90 240, 90 300, 130 345" class="arrow-line" marker-end="url(#arrowD)"></path>
+      <text x="60" y="275" text-anchor="middle" class="dlabel">Message</text>
+      <path d="M 190 345 C 230 300, 230 240, 190 195" class="arrow-line" marker-end="url(#arrowU)"></path>
+      <text x="260" y="275" text-anchor="middle" class="dlabel">Response</text>
+      <circle cx="160" cy="400" r="10" class="dot"></circle>
+      <circle cx="195" cy="382" r="10" class="dot"></circle>
+      <circle cx="125" cy="382" r="10" class="dot"></circle>
+      <circle cx="160" cy="365" r="10" class="dot"></circle>
+      <circle cx="195" cy="418" r="10" class="dot"></circle>
+      <circle cx="125" cy="418" r="10" class="dot"></circle>
+      <circle cx="160" cy="435" r="10" class="dot"></circle>
+      <text x="160" y="470" text-anchor="middle" class="node-tag">Other Side</text>
+      <text x="160" y="492" text-anchor="middle" class="node-label">The Audience</text>
+      <text x="160" y="513" text-anchor="middle" class="node-sub">a statistical distribution</text>
+      <rect x="110" y="555" width="100" height="66" rx="2" fill="none" stroke="#000" stroke-width="1.5"></rect>
+      <line x1="128" y1="575" x2="192" y2="575" stroke="#000" stroke-width="1"></line>
+      <line x1="128" y1="589" x2="192" y2="589" stroke="#000" stroke-width="1"></line>
+      <line x1="128" y1="603" x2="170" y2="603" stroke="#000" stroke-width="1"></line>
+      <path d="M 160 513 C 160 525, 160 535, 160 555" class="arrow-line" stroke-dasharray="3 4"></path>
+      <text x="160" y="645" text-anchor="middle" class="node-tag">Governed By</text>
+      <text x="160" y="667" text-anchor="middle" class="node-sub">the series bible</text>
+      <text x="290" y="400" text-anchor="middle" class="node-tag">Governed By</text>
+      <text x="290" y="422" text-anchor="middle" class="node-sub">psychology and</text>
+      <text x="290" y="440" text-anchor="middle" class="node-sub">environment</text>
+      <path d="M 220 385 C 240 385, 260 390, 280 393" class="arrow-line" stroke-dasharray="3 4"></path>
+      </svg>
+    </div>
+    <p class="diagram-caption">Each side of the dialogue is governed by its own constraints: the brand by its series bible, the audience by its psychology and environment.</p>
+
+    <p class="work-prose">Back in Don Draper's day, the mental model for how brands reach customers was broadcasting. You packaged up your message and blasted it at scale out towards your audience, hoping you would find them. Things couldn't be more different today. Some brands get it, many still act like it's 1962.</p>
+
+    <p class="work-prose">A brand today needs to communicate like a conversation partner, not a broadcaster. Today, audiences have more means than ever to talk back, and they expect brands to listen and respond. This is why, when I joined Wolff Olins four years ago to lead their verbal practice, I designed an approach to verbal identity according to a dialogue model.</p>
+
+    <p class="work-prose">The thesis is straightforward. Treat your brand-audience relationship as an ongoing dialogue, and design how you communicate according to many of the same principles that govern good dialogue in literature, film and TV. The dialogue model jailbreaks the practice of copywriting from marketing prison and reimagines it as the art of managing dialogue at scale: not from one character or person to another, but from one large group of people to another.</p>
+
+    <p class="work-prose">In writing a scene, three things have to be settled first: who is speaking, where they are, and what each party wants. <em>Who is speaking</em> has to resolve to a character rather than a company — a verbal signature consistent and distinct enough that a reader can identify it even without the logo. <em>Where they are</em> does more work than most brand language systems account for. The same sentence means different things depending on the setting: in an error message, a checkout flow, an earnings call, and a chat window where the thing replying is software. And <em>what each party wants</em> is the question brand strategy is built to answer.</p>
+
+    <p class="work-prose">With a dialogue model in place, the familiar failures stop being matters of taste and start being diagnosable. In dialogue writing, David Mamet's first red flag is exposition cosplaying as a conversation— characters telling each other things they both already know, purely for the viewer's benefit. You could file most brand boilerplate writing here. His second is third-party talk: when two characters discuss an absent third, the real conflict is happening somewhere else in the building. So keep your dialogue with your audiences focused on them, and what you've got to give them now. Then there's tone. <em>Succession</em> made corporate-speak a character trait, using vague jargon as a shield to hide feeling and dodge commitment, and it works because everyone watching recognizes the move. A brand that writes in jargon has made the same character choice. The character is a man in a quarter-zip who cannot say what he means.</p>
+
+    <p class="work-prose">Defining the tones your voice can own is the first step out of the red flag zone. Brave, refreshingly candid, surprisingly bold — these can narrow the field but they also can be maddeningly vague, which is why a writer holding three adjectives at eleven at night can still has no idea what to do with the brief in front of her. What closes that gap is specification. Mailchimp is the instructive case: a side project that grew into a company of more than a thousand people, with a published style guide defining the voice with contrast pairs that fine-tune each attribute, and a POV on everything from sentence length, to forbidden phrases, to what the brand does not joke about. That is the altitude at which a voice becomes usable by someone who was never in the room where it was made.</p>
+
+    <p class="work-prose">Here's where the dialogue model starts to break down, which is also where it gets really interesting. In fiction, one intelligence writes both sides — In "Hills Like White Elephants," Hemingway knows what the man wants and what the girl wants, and engineers the friction from above. A brand writes one line and never the reply. Neither party is a single consciousness, either: the brand is a committee that has been arguing since the last planning cycle, and the audience is a statistical distribution with a group chat. And a character in a scene is held there by the scene. An audience is held by nothing at all. It closes the tab, or meanders away from the laptop. The obstacle in brand dialogue is indifference, which no dramatist would accept as a scene partner.</p>
+
+    <p class="work-prose">Television solved half of this decades ago. A TV drama runs on a very human storytelling machine: the writers' room. Many people writing multiple characters, season after season, without the essence of each character getting lost (ideal state, I know). The foundation is the series bible — a document fixing who each character is, what they would never say, and what has already happened to them. It is a production constraint, and it exists so that distributed authorship doesn't produce a different person every episode. The verbal identity systems I build at Wolff Olins are series bibles.</p>
+
+    <p class="work-prose">And the room has new writers in it. Support agents, product surfaces, the model answering a customer at three in the morning — all of them producing brand language at a volume no human room could staff. This changes what the bible has to be. A voice document written to inspire a writer is a mood board, and it dissolves on contact with a system that needs rules it can run. A voice document that can be executed is a spec. The job now is one document that does both, which is another way of saying that brand language has become infrastructure: load-bearing, invisible when it works, and catastrophic when it isn't there.</p>
+
+    <p class="work-prose">Every brand already has a writers' room. It has always been staffed by whoever happened to be typing — the intern on social, the rep on the phone, and now a model that answers ten thousand people at once and never gets tired of the question. The bible is the only thing all three can read.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-method-brand-as-loop">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+    <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry active" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Brand as Loop</h1>
+
+    <p class="method-subhead">Why the most effective brands keep going in circles.</p>
+
+    <a class="essay-markdown-link" href="brand-as-loop.md">Essay Markdown ↗</a>
+
+    <div class="method-diagram">
+      <svg class="desktop-diagram" viewBox="0 0 860 640" width="100%" role="img" aria-label="The brand loop: set point, sensor, comparison, actuator, connected in a continuous circuit">
+      <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#000"></path></marker>
+      </defs>
+      <circle cx="430" cy="320" r="190" class="loop-path" marker-end="url(#arrow)" stroke-dasharray="1194" stroke-dashoffset="0" transform="rotate(-90 430 320)"></circle>
+      <circle cx="430" cy="130" r="34" fill="#000"></circle>
+      <text x="430" y="135" text-anchor="middle" font-size="12" fill="#fff" font-family="var(--font-structural)">01</text>
+      <text x="430" y="58" text-anchor="middle" class="node-tag">Set Point</text>
+      <text x="430" y="80" text-anchor="middle" class="node-label">Brand Positioning</text>
+      <circle cx="620" cy="320" r="34" fill="#000"></circle>
+      <text x="620" y="325" text-anchor="middle" font-size="12" fill="#fff" font-family="var(--font-structural)">02</text>
+      <text x="696" y="310" text-anchor="start" class="node-tag">Sensor</text>
+      <text x="696" y="332" text-anchor="start" class="node-label">Tracking Study</text>
+      <circle cx="430" cy="510" r="34" fill="#21202e"></circle>
+      <text x="430" y="515" text-anchor="middle" font-size="12" fill="#fff" font-family="var(--font-structural)">03</text>
+      <text x="430" y="568" text-anchor="middle" class="node-tag">Comparison</text>
+      <text x="430" y="590" text-anchor="middle" class="node-label">The Gap</text>
+      <text x="430" y="610" text-anchor="middle" class="gap-note">usually missing</text>
+      <circle cx="240" cy="320" r="34" fill="#000"></circle>
+      <text x="240" y="325" text-anchor="middle" font-size="12" fill="#fff" font-family="var(--font-structural)">04</text>
+      <text x="164" y="310" text-anchor="end" class="node-tag">Actuator</text>
+      <text x="164" y="332" text-anchor="end" class="node-label">Campaign / Refresh</text>
+      </svg>
+
+      <svg class="mobile-diagram" viewBox="0 0 380 720" width="100%" role="img" aria-label="The brand loop: set point, sensor, comparison, actuator, connected in a continuous circuit">
+      <defs>
+      <marker id="arrowm" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#000"></path></marker>
+      </defs>
+      <line x1="130" y1="60" x2="130" y2="164" class="loop-path" marker-end="url(#arrowm)"></line>
+      <circle cx="130" cy="30" r="30" fill="#000"></circle>
+      <text x="130" y="35" text-anchor="middle" font-size="12" fill="#fff" font-family="var(--font-structural)">01</text>
+      <text x="174" y="26" text-anchor="start" class="node-tag">Set Point</text>
+      <text x="174" y="46" text-anchor="start" class="node-label">Brand Positioning</text>
+      <line x1="130" y1="230" x2="130" y2="334" class="loop-path" marker-end="url(#arrowm)"></line>
+      <circle cx="130" cy="200" r="30" fill="#000"></circle>
+      <text x="130" y="205" text-anchor="middle" font-size="12" fill="#fff" font-family="var(--font-structural)">02</text>
+      <text x="174" y="196" text-anchor="start" class="node-tag">Sensor</text>
+      <text x="174" y="216" text-anchor="start" class="node-label">Tracking Study</text>
+      <line x1="130" y1="400" x2="130" y2="504" class="loop-path" marker-end="url(#arrowm)"></line>
+      <circle cx="130" cy="370" r="30" fill="#21202e"></circle>
+      <text x="130" y="375" text-anchor="middle" font-size="12" fill="#fff" font-family="var(--font-structural)">03</text>
+      <text x="174" y="366" text-anchor="start" class="node-tag">Comparison</text>
+      <text x="174" y="386" text-anchor="start" class="node-label">The Gap</text>
+      <text x="174" y="404" text-anchor="start" class="gap-note">usually missing</text>
+      <circle cx="130" cy="540" r="30" fill="#000"></circle>
+      <text x="130" y="545" text-anchor="middle" font-size="12" fill="#fff" font-family="var(--font-structural)">04</text>
+      <text x="174" y="536" text-anchor="start" class="node-tag">Actuator</text>
+      <text x="174" y="556" text-anchor="start" class="node-label">Campaign / Refresh</text>
+      <path d="M 130 570 C 30 600, 30 60, 100 30" class="loop-path" fill="none" marker-end="url(#arrowm)"></path>
+      </svg>
+    </div>
+    <p class="diagram-caption">The brand as a cybernetic loop: a set point (positioning), a sensor (tracking), an actuator (the campaign or refresh) — and the comparison step: a reading of the gap between aim and execution.</p>
+
+    <p class="work-prose">Your brand book is the least intelligent object in the building. Ninety pages, every detail written by committee, refreshed every four years. Today, your book sits still while your brand hurtles through a real-time global ocean of semantic currents where a Reddit thread, a product review, a competitor's launch and a training dataset all continuously revise what your name means to somebody without asking you first.</p>
+
+    <p class="work-prose">As intelligent platforms and surfaces expand, so does the gap between brand book and brand ocean, between the meaning of your brand that you control, and the meaning out in the world that you don't.</p>
+
+    <p class="work-prose">In a recent workshop on positioning in the agentic era, trend forecaster Emily Segal — founder of the agency Nemesis — put a cybernetic loop at the center of how brand strategy can close that gap. I've been chewing on it since.</p>
+
+    <p class="work-prose">A cybernetic loop is an old idea and a simple one. Norbert Wiener named the cybernetic field in 1948, taking the Greek word for steersman, and the canonical example of a cybernetic loop is the thermostat on your wall. You set a temperature. A sensor reads the room. The device compares the reading to the setting, and the difference determines what happens next: heat on, heat off. Then it reads the room again. The thermostat is not clever. It holds no feeling of winter. What makes it work is the loop: a set point, a sensor, a comparison, an action, and a return to the sensor. Intelligence in this account is a property of the whole circuit rather than any specific part.</p>
+
+    <p class="work-prose">Stafford Beer spent the 1960s turning firms into loops. A British operations researcher who once built a cybernetics department inside a steel company, he modeled the corporation on the human nervous system and arrived at what he called the viable system model: an organization survives to the degree that it senses, compares, acts and corrects at every level of itself, without stopping. He was writing it up as <em>Brain of the Firm</em> when a letter came from Chile.</p>
+
+    <p class="work-prose">In November 1971 Salvador Allende's socialist government asked him to apply the model to the entire Chilean national economy, and what he built in the following year, on almost no budget, was Project Cybersyn — a requisitioned telex network strung three thousand miles down the country over microwave links originally installed to track satellites, wiring the nationalized factories to two mainframes in Santiago so that a shortfall on a production line showed up at the center in days instead of months.</p>
+
+    <p class="work-prose">Cybersyn's big test came in October 1972, when the owners of the country's lorry fleets struck, attempting to starve the government into collapse. The operations room wasn't finished. The network was. Inside twenty-four hours it was turned from monitoring production to managing distribution, running two thousand telexes a day; with somewhere between ten and thirty per cent of the normal fleet moving, food and fuel supply held at pre-strike levels. The system had been designed for one job and performed another, because what had been built was not a monitoring product but a loop, and a loop can be aimed at a problem nobody planned on.</p>
+
+    <p class="work-prose">Allende's government fell in September 1973, when a vicious right-wing coup fueled by the CIA installed General Augusto Pinochet, and Project Cybersyn fell with it. Beer survived. He surfaced back in the UK having diagnosed where he'd collapsed two levels of his own model into one, and the planning principles he improvised in Santiago turned up seven years later as a chapter of <em>The Heart of Enterprise</em>. When <em>Brain of the Firm</em> was reissued in 1981 he left the original argument standing and appended the entire Chilean story as a new final section.</p>
+
+    <p class="work-prose">Now put a brand where Chile was. The parts are all there but often the wiring isn't. Within a brand there's a set point: the positioning. There's a sensor: the tracking study, fielded annually, read once. There's an actuator: the campaign, the refresh, the guidelines update. What's usually missing is a comparison— a defined, recurring moment when somebody reads the gap between what the brand intended and what the market actually did, and lets that gap decide the next move. Beer's description of the alternative was companies driven "with the driver's eyes fixed on the rear-view mirror." Run it against Ashby and the diagnosis gets harsher than slowness. The semantic ocean has infinite variety; a brand platform has the variety of a static document. An arrangement like that doesn't regulate anything. It decorates.</p>
+
+    <p class="work-prose">I should be straight that the loop I'm describing is mostly an ambition rather than a report — I have not yet seen a brand function actually running one, with a sensing layer wired to a defined comparison and a standing mandate to act on the difference inside a fiscal quarter. Pretending otherwise would be precisely the kind of claim a loop exists to catch.</p>
+
+    <p class="work-prose">The main reason the brand loop paradigm has turned urgent is that the machines now transacting with your brand are themselves loop functions. An AI agent takes an action, observes what came back, and uses the difference to choose the next action. The intelligence we give the model is substantially a property of the structure around it, the arrangement that lets it act repeatedly and read the result.</p>
+
+    <p class="work-prose">This cuts in two directions at once, and the double cut is the whole argument. Your brand is now being read by systems that revise their picture of you every time somebody asks, which is why the static brand book is outgunned. And the same collapse in the cost of perception that produced those systems is sitting there for you to use. Brand used to run on a multi-year clock because sensing was expensive.</p>
+
+    <p class="work-prose">For the first time it is possible to run a brand at the speed the meaning is actually moving.</p>
+
+    <p class="work-prose">A flag, though, from Ashby: cheap optimization makes it trivial to build a very fast loop around the wrong set point, and to get extremely good, very quickly, at doing the wrong thing.</p>
+
+    <p class="work-prose">The objection to all of this is that a brand in permanent correction isn't a brand — that identity requires something fixed, and a system forever adjusting has nothing to be loyal to. Right worry, wrong object. What the loop revises is the path. What it holds is the set point, and the set point is where identity lived the whole time; the guidelines were only ever its filing copy. Identity produces action, action gets interpreted, interpretation revises identity, and the thing that comes back around is still recognizably yours. A thermostat keeps a room at seventy degrees by never once holding still. Choose the temperature. Then build the loop that keeps it.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-method-trust-engine">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+    <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry active" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">The Trust Engine</h1>
+
+    <p class="method-subhead">You see a machine. I see a promise keeper.</p>
+
+    <a class="essay-markdown-link" href="the-trust-engine.md">Essay Markdown ↗</a>
+
+    <div class="method-diagram">
+      <svg class="trust-svg" viewBox="-30 -10 1300 1240" role="img" aria-label="The trust engine: internal and external communications surfaces arranged around a central core of trust">
+        <circle cx="600" cy="600" r="409" fill="none" stroke="#000000" stroke-width="1"></circle>
+        <path d="M 261.34 534.17 A 345 345 0 0 1 938.66 534.17 L 801.23 560.88 A 205 205 0 0 0 398.77 560.88 Z" fill="rgba(33,32,46,0.07)"></path>
+        <path d="M 938.66 665.83 A 345 345 0 0 1 261.34 665.83 L 398.77 639.12 A 205 205 0 0 0 801.23 639.12 Z" fill="rgba(33,32,46,0.07)"></path>
+        <text x="600" y="333" text-anchor="middle" font-weight="500" font-size="26" fill="#000000">External Comms</text>
+        <text x="600" y="883" text-anchor="middle" font-weight="500" font-size="26" fill="#000000">Internal Comms</text>
+        <circle cx="600" cy="600" r="115" fill="#BBAACC"></circle>
+        <text x="600" y="611" text-anchor="middle" font-weight="500" font-size="32" fill="#000000">Trust</text>
+        <circle cx="191.5" cy="600.0" r="6" fill="#21202E"></circle>
+        <text x="130.0" y="600.0" text-anchor="end" font-size="15" fill="rgba(0,0,0,0.60)">Marketing</text>
+        <circle cx="231.8" cy="422.7" r="6" fill="#21202E"></circle>
+        <text x="176.3" y="395.6" text-anchor="end" font-size="15" fill="rgba(0,0,0,0.60)">PR</text>
+        <circle cx="345.2" cy="280.4" r="6" fill="#21202E"></circle>
+        <text x="306.8" y="232.0" text-anchor="end" font-size="15" fill="rgba(0,0,0,0.60)">Branded content &amp; editorial</text>
+        <circle cx="509.0" cy="201.5" r="6" fill="#21202E"></circle>
+        <text x="495.4" y="141.3" text-anchor="end" font-size="15" fill="rgba(0,0,0,0.60)">Social media</text>
+        <circle cx="690.9" cy="201.5" r="6" fill="#21202E"></circle>
+        <text x="704.6" y="141.3" text-anchor="start" font-size="15" fill="rgba(0,0,0,0.60)">Web &amp; UX copy</text>
+        <circle cx="854.8" cy="319.6" r="6" fill="#21202E"></circle>
+        <text x="893.2" y="232.0" text-anchor="start" font-size="15" fill="rgba(0,0,0,0.60)">Customer service, chatbots &amp; AI</text>
+        <circle cx="968.2" cy="422.7" r="6" fill="#21202E"></circle>
+        <text x="1023.7" y="395.6" text-anchor="start" font-size="15" fill="rgba(0,0,0,0.60)">Investor relations</text>
+        <circle cx="1008.5" cy="600.0" r="6" fill="#21202E"></circle>
+        <text x="1070.3" y="600.0" text-anchor="start" font-size="15" fill="rgba(0,0,0,0.60)">Claims &amp; service delivery</text>
+        <circle cx="977.4" cy="756.4" r="6" fill="#21202E"></circle>
+        <text x="1034.3" y="780.1" text-anchor="start" font-size="15" fill="rgba(0,0,0,0.60)">Recruitment</text>
+        <circle cx="888.9" cy="888.9" r="6" fill="#21202E"></circle>
+        <text x="932.5" y="932.5" text-anchor="start" font-size="15" fill="rgba(0,0,0,0.60)">Reviews &amp; complaint logs</text>
+        <circle cx="756.4" cy="977.4" r="6" fill="#21202E"></circle>
+        <text x="780.1" y="1034.3" text-anchor="start" font-size="15" fill="rgba(0,0,0,0.60)">AI shopping agents</text>
+        <circle cx="600.0" cy="1008.5" r="6" fill="#21202E"></circle>
+        <text x="600.0" y="1070.3" text-anchor="middle" font-size="15" fill="rgba(0,0,0,0.60)">Initiatives &amp; platforms</text>
+        <circle cx="443.6" cy="977.4" r="6" fill="#21202E"></circle>
+        <text x="419.9" y="1034.3" text-anchor="end" font-size="15" fill="rgba(0,0,0,0.60)">Town hall speeches</text>
+        <circle cx="311.1" cy="888.9" r="6" fill="#21202E"></circle>
+        <text x="267.5" y="932.5" text-anchor="end" font-size="15" fill="rgba(0,0,0,0.60)">Employee announcements</text>
+        <circle cx="222.6" cy="756.4" r="6" fill="#21202E"></circle>
+        <text x="165.7" y="780.1" text-anchor="end" font-size="15" fill="rgba(0,0,0,0.60)">New hire onboarding</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">Your brand system as a trust engine: every internal and external surface — from marketing to claims to AI shopping agents — delivering the brand's signature around a single core of trust.</p>
+
+    <p class="work-prose">Recent research from Edelman now tags eighty percent of people as trusting the brands they use — more than they trust business, media, government, or their own employer. The prize for winning the trust race is a new game: among people who use generative AI, 91 percent already shop with it, meaning that the next reader of your brand's trust signals is a piece of software that doesn't rely on emotions, memories or vibes to make a call on your trustability.</p>
+
+    <p class="work-prose">To get at how brands can earn trust in the AI era, let's first watch how brand trust often falls apart: rarely in scandal, usually in a seam. Let's say you are an insurance brand. Prospects love your mascot — the disarming charm, the plain talk. Then the hailstorm comes, the claim gets filed, and the claim gets denied by a process reflecting none of the brand personality that was first so welcoming. Mascot joy, meet claim pain. The customer isn't only disappointed in the outcome; she's disoriented by the discontinuity. Trust doesn't live in the mascot or in the policy. It lives in continuity.</p>
+
+    <p class="work-prose">The second trust death is louder: the brand that can't stop saying "trust us." Trust belongs to that class of things ruined by the mode of their own transmission, like whispering "this is intimate" into a megaphone. Hamlet's mother had the diagnosis: the brand doth protest too much. Nobody trustworthy has ever needed to tell you this often.</p>
+
+    <p class="work-prose">So what is the thing called trust that's so fragile? Strip the sentiment and trust has a promise on one side, a belief on the other. Trust is a belief in the fulfillment of a promise — which makes it a signal to the future, like design. A chair's design is a promise that it will hold you; you sit without testing it (most chairs anyway). You trust a brand because it gave you something valuable before, and you believe it will again.&nbsp;</p>
+
+    <p class="work-prose">Route that through the agentic era. When an AI agent assembles a purchase decision, it skips the marketing and goes straight to the record: does the spec match the review, does the review match the complaint log, does anyone credible corroborate? Edelman's own first recommendation — move from SEO to GEO, concedes the premise. But if that's all a trust engine means — translating your signals into the agent's mother tongue — we've merely redecorated the marketing layer. The more valuable machine is the one that heals the fracture between promise and fulfillment that can so often split brand experience in two.</p>
+
+    <p class="work-prose">Here's the rub: "automated trust" sounds like a scam. We assume trust can't be manufactured, because we model it on human sincerity. But brand authenticity—that beloved trust driver—was always the result of an exact match between what was promised and what happened. Picture a brand agent that meets the customer at the claim, knowing the whole backstory, what the ads promised, it speaks in the voice that made her choose you, and it walks her from mascot joy through claim pain with a continuity no call center manages at 2 a.m. on the third transfer. The agent has no feeling to fake. What it has is the promise, kept at the exact moment where promises are so often broken.</p>
+
+    <p class="work-prose">That's the trust engine: fulfillment infrastructure, in the brand voice. Because trust is a signal to the future, and the future is the one thing you can't fake. The brands that own the next twenty years will make fewer promises and keep them a million times. Design the chair so it holds. Then let people sit.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page active" id="page-method-art-of-the-prompt">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+    <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry active" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">The Art of the Prompt</h1>
+
+    <p class="method-subhead">How to direct creativity by giving up control</p>
+
+    <a class="essay-markdown-link" href="the-art-of-the-prompt.md">Essay Markdown ↗</a>
+
+    <div class="method-diagram">
+      <div class="prompt-sequence">
+        <div class="prompt-node">
+          <div class="num">1</div>
+          <div class="node-title">Author</div>
+          <div class="node-examples">Artist / Brand builder / Human</div>
+        </div>
+        <div class="prompt-node">
+          <div class="num">2</div>
+          <div class="node-title">Instruction</div>
+          <div class="node-examples">Certificate &amp; diagram / Brand guidelines / Prompt</div>
+        </div>
+        <div class="prompt-node">
+          <div class="num">3</div>
+          <div class="node-title">Actor</div>
+          <div class="node-examples">Trained drafters / Agency, freelancer / LLM</div>
+        </div>
+        <div class="prompt-node">
+          <div class="num">4</div>
+          <div class="node-title">Outcome</div>
+          <div class="node-examples">Wall drawing / Brand expression / Output</div>
+        </div>
+      </div>
+    </div>
+    <p class="diagram-caption"><em>Conceptual art, brand expression and AI agents run the same four-step process.</em></p>
+
+    <p class="work-prose">Instructions are brand's unglamorous foot soldiers. Here's why they matter more than ever.</p>
+
+    <p class="work-prose">Sol LeWitt made drawings he never drew himself. Beginning in 1968, he wrote instructions — a few lines of plain language about direction, color, and how the lines should meet — and other people executed them on gallery walls. The instructions were the art. Buy a LeWitt wall drawing today and you get a signed certificate and a diagram, along with the right to have the piece drawn by trained drafters. When the show closes, the wall gets painted over. The certificate survives, and the next museum draws it again.</p>
+
+    <p class="work-prose">Every CMO already owns something like a certificate, and it's called the brand guidelines. Nobody treats that document as the work. It's the thing you make so the work can happen. But look at what you're asking it to do. The guidelines go out to people you will never meet: the agency in a market you've never visited, the freelancer covering a parental leave, the hotel franchise operator writing a room card at eleven at night. None of them were in the room where the strategy was debated, and all of them are about to speak in your voice. The guideline has to carry the direction intact while leaving them room to write a sentence that fits their needs—because no guideline can ever custom fit-every use case. Pull the guidelines too tight and everything reads like a legal notice. Leave it too loose and you have eighteen brands. LeWitt spent a career on exactly this problem, and his answer was to be binding about what mattered and silent about what didn't. Two crews executing the same certificate produce two visibly different walls, and both are correct. That tolerance is what makes an instruction usable by hands other than your own.</p>
+
+    <p class="work-prose">An LLM prompt is a similar document, addressed to a much faster set of hands. Which means the skill the agentic era rewards is one brand people have been practicing for decades: writing an instruction precise enough to survive execution by someone who wasn't there. It also means the anxiety points at the wrong end of the process. Drafting is what got cheap — the eleventh version of the launch email, the deck rebuilt overnight by something that doesn't sleep. Deciding what the work should be, didn't. Write the certificate. Someone else has always held the brush.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-sandals">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+    <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry active" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Sandals &amp; Beaches Resorts</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Sandals &amp; Beaches Resorts</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Wolff Olins</span>
+      <span class="meta-label">Role</span><span class="meta-value">Verbal Identity Lead</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Brand voice, messaging, nomenclature, website rewrite, training</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/Sandals/sandals-01 hero.png" alt="Sandals &amp; Beaches Resorts brand hero">
+      <p class="image-caption">The brand that built the all-inclusive category, now deeply steeped in Caribbean soul.&nbsp;</p>
+    </div>
+
+    <p class="work-prose">Sandals Resorts built Caribbean hospitality from the ground up — the swim-up bar, the butler suite, the all-inclusive category as the world knows it. Four decades in, the business partnered with Wolff Olins to fully reimagine the brand for a new hospitality landscape and a new generation of travelers.</p>
+
+    <p class="work-prose">The brand's verbal identity was holding it back. The existing copy read like the category, not like Sandals. Stiff, superlative-heavy, generic luxury-speak that could have belonged to anyone, a holdover from past eras and assumptions around how hospitality brands could best convey value and connect with guests. My job was to find the voice beneath the polish and build a system that could carry it everywhere.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Sandals/sandals-02 natural vibrancy.png" alt="Natural Vibrancy — the Sandals brand ethos">
+      <p class="image-caption">The brand ethos: Natural Vibrancy. The Caribbean's simple pleasures connect us to the joy of living.</p>
+    </div>
+
+    <p class="work-prose">The verbal identity was built around a creative platform — <em>Natural Vibrancy</em> — and a brand persona we called the Island Insider: a local who genuinely believes the Caribbean is the best place on earth, and can't wait to show you why.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Sandals/sandals-03 island insider.png" alt="The Island Insider brand persona">
+      <p class="image-caption">The Island Insider — the persona that anchors every brand voice decision.</p>
+    </div>
+
+    <p class="work-prose">From that persona came three voice principles that governed how the brand speaks across every context.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Sandals/sandals-04 voice principle 1.png" alt="Sandals voice principle one">
+      <p class="image-caption">Three voice principles. Simple enough to be used by a ballroom full of hotel operators. Specific enough to actually impact how they write.</p>
+    </div>
+
+    <p class="work-prose">The new voice reflected the naturally vibrant spirit of the Caribbean that has animated Sandals from the beginning — more intimate, carefree, and relaxed, like a warm breeze off the ocean.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Sandals/sandals-05 voice principle 2.png" alt="Sandals voice principle two">
+      <p class="image-caption">Why tell people how great the Caribbean is, when you can use language to take them there?&nbsp;</p>
+    </div>
+
+    <p class="work-prose">The system had to work at scale. Sandals operates eighteen resorts across eight islands, with hundreds of staff members producing guest-facing copy every day. We built a voice spectrum — from Exciting to Informing to Guiding to Delight — that gave writers a clear brief for every context, whether they were crafting an ad campaign or a welcome letter. Then we rewrote the entire website using the new voice, with before-and-after copy that showed what the shift actually looked like in practice.</p>
+
+    <p class="work-prose">The verbal identity also shaped nomenclature — the system governing how resorts, property areas, and experiences are named — and extended into hospitality: how staff greet guests, how cocktails are named, how the brand sounds in a phone call versus a room card. At one point, I flew to Jamaica to train a full ballroom of hotel operators in the new brand voice.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Sandals/sandals-12 social.png" alt="Sandals social content in the new brand voice">
+      <p class="image-caption">Voice in the wild, capturing the "let fun be easy" spirit of Sandals' family-focused sister brand, Beaches.&nbsp;</p>
+    </div>
+
+    <p class="work-prose">The work became the foundation of a global campaign across TV, print, digital, social, and out-of-home. The new Sandals verbal identity provided the blueprint that every partner agency built from — a brand that had always been felt, finally had something to say.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-benefit">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry active" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Benefit Cosmetics</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Benefit Cosmetics</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Wolff Olins</span>
+      <span class="meta-label">Role</span><span class="meta-value">Verbal Identity Lead</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Brand voice, verbal identity, brand strategy, global rollout</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/Benefit/Image 1 - Brand Purpose.png" alt="Brand purpose slide: Ignite Joy">
+      <p class="image-caption">The purpose behind it all: Ignite Joy — because beauty should lift you up, not bring you down.</p>
+    </div>
+
+    <p class="work-prose">Benefit Cosmetics never struggled to be loved. Nearly fifty years after fun-loving twins Jean and Jane Ford opened a tiny makeup shop in San Francisco's Mission District, their company was the number-one brow brand on earth, sold in more than fifty countries. People adored the products. They just couldn't have told you much about the brand behind them. Somewhere on the way from scrappy shop to global bestseller the thread snapped: Benefit's bestsellers no longer added up to a personality, and the wit stopped reflecting a point of view.</p>
+
+    <p class="work-prose">Wolff Olins partnered with Benefit's creative and executive leadership to find that thread again. My job was to take that thread and spin it into a voice that Benefit practitioners could own and that customers would love, carrying the new purpose, Ignite Joy, into every line the company would write.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Benefit/Image 2 - Brand Strategy .png" alt="Brand strategy framework">
+      <p class="image-caption">The strategy: purpose, belief, promise, pledges, personality. A launchpad for beautiful things.</p>
+    </div>
+
+    <p class="work-prose">The strategy surfaced what had been true since the beginning but had never been said out loud: Benefit exists to ignite joy, because beauty should lift people up, not bring them down. Everything followed from there — a promise of beauty made radically feel-good, and a personality that was exuberant, bold, fun, and unexpected. When it came to defining a cosmetics brand anchored in beauty that never took itself too seriously, it was clear that Benefit had been born that way — ever since the day a San Francisco exotic dancer walked into the Fords' original shop, The Face Place, and asked for a stain to tint her nipples. The bottle they mixed for her became Benetint.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Benefit/Image 3 - Voice character.png" alt="Voice character: The Fun-Loving Beauty Genius">
+      <p class="image-caption">The Fun-Loving Beauty Genius — the voice character that anchors every writing decision.</p>
+    </div>
+
+    <p class="work-prose">The verbal identity had to bridge that strategy and the page. Benefit knew more about brows than almost anyone alive and had never worked out how to sound like it — the copy swung between generic beauty-speak and irreverence cranked so high it never landed. So the voice had to solve one genuinely hard thing: how to sound like the most knowledgeable person in the beauty aisle and the most fun one, at the same time.</p>
+
+    <p class="work-prose">That person got a name: the Fun-Loving Beauty Genius — the friend who has tried everything in the aisle, obsessed over all of it, and can't wait to tell you what actually works. Think of the persona like a chic little hat a writer can wear: something you put on to get into character and take off when you're done. Three principles carried that character onto the page: talk to people like we've known them for ages, enthusiastically share what we know, and keep it playful.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Benefit/Image 4 - Voice Principles.png" alt="Three voice principles">
+      <p class="image-caption">Three voice principles. Specific enough to change how a writer tackles a TikTok script. Flexible enough&nbsp; &nbsp;to work across fifty countries.</p>
+    </div>
+
+    <p class="work-prose">The principles worked as a system. Which one leads depends on the job in front of you: a product description, a crisis reply, and a welcome email don't ask for the same thing. A framework called Keeping Things Flexible mapped the three principles across five communication goals — informing, supporting, selling, entertaining, and honoring the moment — giving writers a useful toolkit that helps the brand voice travel, adapt, and connect to what audiences are feeling in any situation.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Benefit/Image 5 - Before and After Rewrites.png" alt="Before and after copy rewrites">
+      <p class="image-caption">Before and after. Smarter, warmer, and finally the same brand talking every time.</p>
+    </div>
+
+    <p class="work-prose">The before-and-afters were where the voice went from theory to practice. Set side by side across product pages, headlines, TikTok scripts, and Instagram captions, they let writers see the moves in action. "Love your brows" becomes "Your brows. Our obsession." "Welcome to Benefit" becomes "You made it! We're so glad you've joined the Benefam." A product description that once read like a lab report becomes a brief, absurd vacation with Gimme Brow+. The rewrites are smarter and warmer, and their wit now has a specific role to play. And for the first time, the brand was built to sound like the same person across every surface.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Benefit/Image 6 - Voice Spectrum.png" alt="Voice spectrum across contexts">
+      <p class="image-caption">The voice spectrum in action. Social, product, TikTok, site copy — each context, same character.</p>
+    </div>
+
+    <p class="work-prose">Then the system had to travel the world. Benefit writes in more than fifty countries — including English, Mandarin, Italian, and French — so the guidelines were built to inspire rather than dictate: explicit about intent, and honest about the limits of any rulebook written in one language for people working in another. We ran workshops with the global writing teams to find where a principle crashed and burned in another language before a market did.</p>
+
+    <p class="work-prose">A set of guardrails codified the brand's own vernacular — inclusive address, feel-good language, premium language, and the house rules of what Benefit calls Bene-fication. Each one protected the brand's warmth from its own worst instincts, keeping a close eye on the line between a brand that waves everyone into the beauty locker room and one that accidentally locks half of them out.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Benefit/Image 7 - voice in the wild.png" alt="Voice in the wild — campaign and social">
+      <p class="image-caption"><br></p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/Benefit/Image 8 - voice in the wild .png" alt="Voice in the wild — further applications">
+      <p class="image-caption">Voice in the wild. The new voice at work across campaign, social, and in-store touchpoints.</p>
+    </div>
+
+    <p class="work-prose">The voice became the foundation for everything Benefit wrote, and the blueprint every partner agency built from. A brand that had spent fifty years being felt — in the products, the pink packaging, the brow bars — finally had something to say.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-freshfields">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry active" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Freshfields</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Freshfields</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Wolff Olins</span>
+      <span class="meta-label">Role</span><span class="meta-value">Strategy &amp; Verbal Lead</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Brand strategy, naming, verbal identity</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/Freshfields/1 - Wordmark.png" alt="Freshfields wordmark">
+      <p class="image-caption">The new Freshfields wordmark: a single name in a bold uppercase, for a firm born to lead law forward.</p>
+    </div>
+
+    <p class="work-prose">By 2023, global law was being run from New York. American firms had the scale to win everywhere and the leverage to hire anyone. London’s old guard faced a choice: merge with a US firm as an insurance policy, or compete on American terms without becoming American. Most took the merger. Freshfields — 280 years old, 17 countries, one of the five magic circle firms — had just elected a leadership team with the opposite mandate: show up as one firm and meet the Americans on their home turf. One partner put it more plainly: “They’re eating our lunch, so we’re going to eat their dinner.”</p>
+
+    <p class="work-prose">My work spanned two places where that mandate had to hit home: the strategy defining what the brand stands for, and the language carrying it into the world. Both started with the name. The firm had operated for years as Freshfields Bruckhaus Deringer — a post-merger mutant carrying former firms, former allegiances, and decades of entrenched institutional politics. Our first recommendation was the most consequential: drop “Bruckhaus Deringer” and let the firm show up everywhere as one word.</p>
+
+    <p class="work-prose">That word first had to be won internally. Partners had spent whole careers identifying with the compound name, and the case for cutting it had to be airtight: the name they were protecting was costing them the unity it was designed to represent. We built the case for change and drove the campaign across the firm, Frankfurt to San Francisco. The firm went to market as Freshfields.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Freshfields/2 - Brand Platform.png" alt="Freshfields brand platform: at the forefront of law, giving clients the edge">
+      <p class="image-caption">The brand platform: forefront speaks to constant innovation; edge echoes the client benefit.&nbsp;</p>
+    </div>
+
+    <p class="work-prose">The strategic question came next: what could Freshfields claim that clients would believe and competitors couldn’t? Law firms tend to converge on the same superlatives. The research pointed somewhere more interesting. Freshfields is a genuine pioneer in law — the world’s most innovative companies bring it their biggest commercial leaps, industry stalwarts trust it to steady the ship through regulatory instability, and the firm hires leaders who can toggle between imaginative problem-solving and technical precision. Forward-thinking and technically unimpeachable at once, which gives clients the confidence to make bold decisions. So we anchored the Freshfields&nbsp;<em>at the forefront of law, giving clients the edge.</em></p>
+
+    <div class="case-study-image-full">
+      <img src="images/Freshfields/3 - Brand Voice.png" alt="Freshfields verbal identity and tone principles">
+      <p class="image-caption">The verbal identity: messaging and tone inspired by the feeling of a frank conversation with a Freshfields partner.</p>
+    </div>
+
+    <p class="work-prose">The verbal identity gave that positioning a voice, modeled on the feeling of a&nbsp; frank conversation with a senior Freshfields partner. That partner leads with a strong point of view, is willing to tell you the thing you’d rather not hear, and backs it up with the precision of someone who has spent years inside the most complex deals in the world. The messaging frameworks, tone principles, and writing guidelines were built to reproduce that feeling in every piece of communication the firm makes.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Freshfields/4 - Brand in market 1.png" alt="Freshfields brand in market">
+      <p class="image-caption">The new brand in market: the same frank, forward-thinking voice across website, communications, and campaign.</p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/Freshfields/5 - Brand in market 2.png" alt="Freshfields brand applied across touchpoints">
+      <p class="image-caption">Forefront and edge, carried across the firm’s real-world touchpoints.</p>
+    </div>
+
+    <p class="work-prose">The cultural dimension mattered as much as the strategy. American law-firm culture runs on “eat what you kill.” Freshfields had always been rooted in a British legal culture that colleagues and clients describe as genuinely collaborative — and that was an asset worth protecting even as the firm pushed onto American turf. Competing on US terms forced a real concession: Freshfields broke its lockstep pay structure for the first time in its history. Keeping the culture became the counterweight — a talent-market position as the firm where you can win at the highest level and be treated like a human being while you do.</p>
+
+    <p class="work-prose">The transformation was endorsed at the top and socialized across 420-plus partners, 2,800 lawyers, and 4,700 employees in 17 countries, and the market answered fast — US revenues rose from £391 million to £473 million in a year. The cleanest verdict came from the other side of the table, a rival New York dealmaker talking to the FT: “Other UK firms have tried to do what Freshfields is doing and they all failed.” Dinner, served.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-cvent">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry active" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Cvent</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Cvent</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Wolff Olins</span>
+      <span class="meta-label">Role</span><span class="meta-value">Strategy + Voice Lead</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Brand strategy, messaging, voice framework, AI voice system</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/Cvent/1 - Cvent Hero.png" alt="Cvent rebrand overview">
+      <p class="image-caption">My team led a transformation of Cvent from the biggest name in events to a leader in performance.</p>
+    </div>
+
+    <p class="work-prose">Cvent's scale was undeniable. The platform managed more than seven million events annually, sourced $17 billion in event business each year, and operated at a size that dwarfed every competitor in the category. Over time, that scale had become a liability. Years of acquisitions had produced a dizzying product portfolio without a coherent story underneath. For many users, Cvent had become a necessary evil — powerful, unavoidable, and hard to love. The brand needed to do something harder than grow: it needed to shift from "biggest" to "beloved," signal genuine tech innovation to stakeholders, and expand its audience from the C-suite all the way to the first-time event planner.</p>
+
+    <p class="work-prose">The strategic was to reposition events themselves — from logistics software to performance infrastructure. The insight was hiding in plain sight: out there, events look easy. Lights come on, doors open, attendees stream in. The world thinks it just happened. Event professionals know the opposite is true. Behind every connection made or deal closed is a system that either performs or doesn't. That shift — from managing events to powering them — made the user the hero of Cvent's story for the first time and gave the brand a clear argument: events aren't a nice-to-have in the budget. They're a martech must, with measurable impact on the business outcomes that matter.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Cvent/2 - Differentiators.png" alt="Cvent four differentiators framework">
+      <p class="image-caption">Four evergreen differentiators — the fixed strategic messages that ladder up from every campaign, product, and touchpoint across the business.</p>
+    </div>
+
+    <p class="work-prose">The voice and messaging system had to hold across a platform that serves event planners, marketing professionals, and hospitality operators simultaneously — three audiences with different vocabularies and different reasons to care. I led the development of a brand voice, and a messaging platform built on four evergreen differentiators built to span the portfolio. The differentiators were designed to be timeless and strategic, emotionally resonant and broad enough to anchor any campaign, any initiative, any touchpoint, in any market. To help Cvent scale the new voice across a large, distributed organization, I also developed an AI brand voice tool: a customized .md file structured as a system prompt that could be deployed in any LLM and used by any practitioner — copywriter, marketer, product team — without requiring a brand briefing.&nbsp;</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Cvent/3 -  Personality .png" alt="Cvent brand personality">
+      <p class="image-caption">The character behind the voice, tuned to stay recognizably Cvent everywhere.</p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/Cvent/4 - AI brand voice content .png" alt="On-brand content generated by the Cvent AI voice tool">
+      <p class="image-caption">On-brand tone modulation from the AI voice tool: a structured .md system prompt that puts the Cvent voice in any LLM, for any practitioner, no briefing required.</p>
+    </div>
+
+    <p class="work-prose">The system went live at Cvent CONNECT, the company’s annual conference, as a single global brand flip executed in real time — something the category had never attempted at this scale. Attendees arrived to the old Cvent. Midway through the keynote a film rolled, the wristbands and lasers in the room turned from blue to white to green, and at the climax, hundreds of brand assets changed at once across every office and channel worldwide, choreographed over internal “mission control” threads. The foundation held all the way through: the performance positioning, the four differentiators, a launch line — <em>Expect more from your events</em> — and the AI voice tool keeping thousands of assets on tone without a briefing. The audience walked into one brand and out of another.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/Cvent/5 - Cvent Launch.png" alt="Cvent brand launch at Cvent CONNECT">
+      <p class="image-caption">The launch at Cvent CONNECT: a live, synchronized global brand flip staged during the keynote.</p>
+    </div>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-jj">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry active" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Johnson &amp; Johnson</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Johnson &amp; Johnson</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Wolff Olins</span>
+      <span class="meta-label">Role</span><span class="meta-value">Verbal Identity Lead</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Verbal identity, brand voice, campaign</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <div class="image-placeholder" style="aspect-ratio:16/9; background:rgba(0,0,0,0.04); display:flex; align-items:center; justify-content:center;"><span class="image-placeholder-text">Launch film — video too large for hosting, to be replaced with external embed</span></div>
+      <p class="image-caption">Our brand transformation culminated in a launch film that captured the global J&amp;J brand as an innovation-driven health care leader.</p>
+    </div>
+
+    <p class="work-prose">For 135 years, Johnson &amp; Johnson meant Band-Aids and baby powder, and then it didn’t. In 2023 the company spun out its consumer division to become a pure-play healthcare company built from two lines of business: Innovative Medicine and Med Tech. The name stayed. Nearly everything else had to change.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/JJ/Logo.png" alt="Johnson &amp; Johnson logo">
+      <p class="image-caption">The new Johnson &amp; Johnson brand identity was built on the brand’s legacy—and modernized to create a powerful symbol of a unified global enterprise.</p>
+    </div>
+
+    <p class="work-prose">Johnson &amp; Johnson's existing brand voice had been built for the medicine cabinet: warm, domestic, reassuring. It could not carry oncology, cardiovascular medicine, and medical devices. My job was to build a verbal identity that spanned two sectors and speaks credibly to five audiences — patients and the public, healthcare providers, employees, investors, and public-health officials — while remaining unmistakably J&amp;J.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/JJ/2 - Amplify Each Life.png" alt="Amplify each life — the new J&amp;J brand ethos">
+      <p class="image-caption">The new brand ethos, “Amplify each life,” captured the energy, momentum and urgency that keeps J&amp;J moving forward.</p>
+    </div>
+
+    <p class="work-prose">Working from a new brand idea — <em>Amplify each life</em> — I defined four voice attributes: Empathetic, Clear, Energizing, Expert. The design problem they had to solve: signal transformation without torching the legacy, and carry scientific authority without shedding the warmth that made J&amp;J credible in the first place. The guidelines named the combination “an ownable mix of science/technology and care” — territory no other healthcare brand could occupy like J&amp;J.&nbsp;</p>
+
+    <div class="case-study-image-full">
+      <img src="images/JJ/3- Voice Attributes.png" alt="J&amp;J voice principles">
+      <p class="image-caption">The four voice principles, each defined with their own logic, guardrails, and tactics.</p>
+    </div>
+
+    <p class="work-prose">Each attribute was calibrated — Empathetic stops short of sentimental, Expert stops short of arrogant. The key design decision was that all four are always present, and dialed up or down by context. A leadership message to employees leads with empathy and energy. A note to the financial community leads with expertise and clarity. A press release for providers leans expert and energizing, with the empathy underneath. The guidelines codified those settings into a tonal framework that made the judgment repeatable at scale.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/JJ/4 - Tonal Framework.png" alt="J&amp;J tonal framework">
+      <p class="image-caption">The tonal framework — how the four attributes flex across five audience types.</p>
+    </div>
+
+    <p class="work-prose">The guidelines covered the full brand ecosystem — external communications, investor relations, product and sub-brand naming, social, town halls, recruitment, UX copy — across both sector brands. They were written with enough specificity that even a writer new to J&amp;J could use them, and enough range that they wouldn’t read as a straitjacket.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/JJ/5- OOH.png" alt="J&amp;J campaign — out of home">
+      <p class="image-caption">The brand work extended into OOH campaigns, film, sonic identity, and a global J&amp;J launch day.</p>
+    </div>
+
+    <p class="work-prose">The verbal identity carried over into campaign work that launched the new J&amp;J to the world. We introduced the brand to leaders and more than 36,000 employees globally, with audience-specific training built so everyone from internal teams to agency partners could actually write in the voice. In the first quarter after launch, J&amp;J beat earnings expectations and raised its full-year outlook. Medicine already has a word for expertise that knows how to talk to a person: bedside manner. We wrote it down and made it a system.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-amex">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry active" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">American Express</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">American Express</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Day One</span>
+      <span class="meta-label">Role</span><span class="meta-value">VP of Story</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Earned media strategy, editorial direction, social campaigns</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/amex/amex-platinum-luxury.jpg" alt="American Express Platinum lifestyle imagery">
+      <p class="image-caption">The new color of luxury: relaunching Platinum as a lifestyle card, not a travel card.</p>
+    </div>
+
+    <p class="work-prose">American Express had one of the most valuable brands in the world and a problem money couldn't solve: a legacy. For decades it had been the card of travel and reward — premium, dependable, slightly establishment. When Amex's ambition shifted to becoming a global lifestyle brand, it needed to harness its heritage in a whole new way.&nbsp;</p>
+
+    <p class="work-prose">As VP of Story at Day One, my job was to help Amex show up in culture. I led internal and cross-agency teams to build earned-media initiatives and social-first campaigns that could move the brand into the cultural conversation while protecting everything that made Amex Amex. Earned media is unforgiving — it only works when the idea is worth sharing — so the discipline was to find the stories already latent in the brand and give them a stage.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/amex/amex-platinum-dining.jpg" alt="American Express Platinum dining experience">
+      <p class="image-caption">Amex Platinum, reframed around dining, wellness, retail, and art — luxury as a way of life.</p>
+    </div>
+
+    <p class="work-prose">The centerpiece was the relaunch of the Platinum card. Platinum had always been read as a travel product, but my team helped reposition it as a true luxury lifestyle card, spanning dining, wellness, retail, and art. We staged a summer launch across earned channels and built it toward a multi-agency moment during Art Basel: the Museum of Platinum, an Instagram-native initiative that broke the brand's year-over-year engagement records.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/amex/amex-julie-mehretu.jpg" alt="Platinum x Julie Mehretu artwork collaboration">
+      <p class="image-caption">Platinum × Julie Mehretu, putting a contemporary artist at the center of a financial product.&nbsp;</p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/amex/amex-museum-of-platinum.png" alt="Museum of Platinum Instagram initiative during Art Basel">
+      <p class="image-caption">The Museum of Platinum at Art Basel — a record-breaking, social-first culmination of the relaunch.</p>
+    </div>
+
+    <p class="work-prose">A lifestyle brand also has to stand for something without lecturing about it. To carry Amex's long-term commitment to diversity and inclusion, we produced a short-film series celebrating the visual artists who create store signage for the brand, putting real makers at the center of the story.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/amex/amex-crowd.jpg" alt="American Express brand experience crowd">
+      <p class="image-caption">The NBA 2K IRL shop and Twitch launch — a card offer that arrived as a gaming moment.</p>
+    </div>
+
+    <p class="work-prose">Reaching a younger card member meant going where culture happens. To celebrate Amex's first NBA 2K22 offer, we opened NBA 2K's first in-real-life shop, stocked with exclusive digital merchandise, and threw a launch party where NBA players faced off in gameplay streamed live to 450,000 fans on Twitch. It was a financial-services announcement that looked nothing like one.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/amex/amex-shop-small.png" alt="American Express Shop Small receipt initiative">
+      <p class="image-caption">The Shop Small receipt — proof that small brand moments can have outsized impact.</p>
+    </div>
+
+    <p class="work-prose">Not every story has to be loud to be earned. For the twelfth year of Small Business Saturday in 2021, I conceived the Shop Small receipt initiative — a small, tangible gesture handed to customers who supported local businesses — which the client has since held up as a model of audience engagement. As Story lead I guided the Day One team day to day: ideating on-brand content series, building the editorial calendar, and partnering with the client to turn broad brand goals into culture-worthy, social-first moments that stopped people mid-scroll.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-hbo">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry active" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">HBO</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">HBO — Westworld Season 3</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Giant Spoon</span>
+      <span class="meta-label">Role</span><span class="meta-value">Creative Direction, Experiential Design</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Experiential activation, narrative concept, on-site copy</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/hbo/1- hbo-incite-booth.jpg" alt="INCITE booth at Wired25 conference">
+      <p class="image-caption">INCITE arrives at Wired25 — a tech company that doesn't exist, selling a future you'd rather not buy.</p>
+    </div>
+
+    <p class="work-prose">The best way to market a show about surveillance capitalism is to commit the crime in public. To promote the third season of Westworld, we convinced HBO to hold off on advertising the show at all and instead own the cultural conversation the show was really about: data, privacy, and how cheerfully we're capable of handing our whole selves over to organizations we barely understand. The premise of the season had moved out of the iconic Westworld theme park and into a world run by algorithms. So we built one IRL — and took it on tour, from San Francisco to Las Vegas.</p>
+
+    <p class="work-prose">The first stage was Wired25, the magazine’s conference in San Francisco. There we introduced the world to INCITE: a new tech giant with a slick brand, a confident mission, and an unsettling vision of the future. Nothing on the surface said HBO or Westworld. INCITE simply behaved like a real company that had bought its way into the conference.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/hbo/2- hbo-incite-experience.jpg" alt="INCITE experiential activation at Wired25">
+      <p class="image-caption">From the marketing booth to live actors to a sponsored panel, INCITE delivered one message: the more data you give us, the happier you'll be.</p>
+    </div>
+
+    <p class="work-prose">I provided creative direction and experiential design across the activation — the booth, the actors working the floor in character, the sponsored panel, the messaging running through all of it. The single idea we wanted attendees to walk away with, slightly disturbed, was INCITE’s core promise: the more data you hand over, the happier you’ll be. Said out loud, at a tech conference, by people who clearly believed it, the line landed exactly where Westworld wanted its audience — uncertain whether to laugh or leave.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/hbo/3- hbo-wired25.jpg" alt="INCITE presence on the Wired25 conference floor">
+      <p class="image-caption">By the time attendees realized INCITE was a teaser for Westworld, they'd already lived inside the show's premise for an afternoon.</p>
+    </div>
+
+    <p class="work-prose">The reveal did work a billboard can’t: it made an audience feel the show before telling them what it was. By the time the INCITE mask came off, the conversation about data privacy was already running — the one HBO wanted to own going into the season. Wired25 proved the premise could hold a conference floor for an afternoon. The second stage tested how much further it could go.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/hbo/4 - WW Data Dinner.png" alt="INCITE data dinner at CES, NoMad Las Vegas">
+      <p class="image-caption">The data dinner: a menu chosen by your own data, and a keynote starring one guest’s entire life.</p>
+    </div>
+
+    <p class="work-prose">At CES that January, INCITE hosted a dinner at the NoMad in Las Vegas for the tech press. The invitation opened with a pointedly personal questionnaire and a waiver most guests clicked through without reading — which was the whole point. Hosts greeted arrivals by name and asked after their pets, also by name. Menus arrived pre-chosen, built from each guest’s own data. Actors seeded among the tables let personal details fall into conversation until nobody was sure who was real. At the keynote, INCITE reconstructed one guest’s life on screen — her choices, her career, the road not taken — until she panicked and fled the room. She was a plant. The data wasn’t. Everyone in that room had consented, and it still felt like a breach of trust: the season’s whole argument in a single evening. We committed the crime in public twice. The second time, the victims RSVP’d.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-equinox">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry active" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Equinox</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Equinox</span>
+      <span class="meta-label">Agency</span><span class="meta-value">In-house</span>
+      <span class="meta-label">Role</span><span class="meta-value">Senior Creative</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Brand campaigns, voice + tone, sub-brand positioning, copy</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/equinox/equinox-regeneration-1.png" alt="Equinox Regeneration campaign">
+      <p class="image-caption">Regeneration — a campaign that dared Equinox's most relentless members to power down.</p>
+    </div>
+
+    <p class="work-prose">Equinox isn't a gym; it's a brand built on the religion of high performance. As the in-house copy lead, I worked across every surface that held this high-performance religion together — the tone of voice, the brand DNA, the read on where culture and the luxury fitness world were heading — and then put it all to work in 360 campaigns and in the launch of new clubs and sub-brands. As the business evolved from fitness to luxury lifestyle, the challenge never wavered: how do you keep spreading the high-performance gospel?&nbsp;</p>
+
+    <p class="work-prose">Take Regeneration. Recovery had quietly become a huge part of the Equinox story, but the word itself meant nothing to members whose entire identity was built on pushing harder. So I led a campaign that dared them to do the hardest thing a high performer can do: nothing. Power down. Go slow. Discover that rest is where gains happen. The messaging laddered across the whole portfolio, so a single idea could carry everything from meditation podcasts to sleep coaching.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/equinox/equinox-regeneration-2.png" alt="Equinox Regeneration campaign extension">
+      <p class="image-caption">One idea — doing nothing is everything — stretched across meditation, sleep coaching, and the rest of the brand portfolio.</p>
+    </div>
+
+    <p class="work-prose">Personal training was a different problem. Equinox needed to redefine how it talked about its trainers, so I led a team to build <em>Impossible Happens</em> — a storytelling platform about extraordinary change that starred real members. I crafted the concept, cast the talent, directed four spots, and wrote the tagline and supporting copy. The story was simple: with the right trainer, you're partners in the impossible. You break records, tear down walls, and unlock the extraordinary together. Our program, your results.</p>
+
+    <div class="case-study-image-full">
+      <div class="video-embed">
+        <iframe title="vimeo-player" src="https://player.vimeo.com/video/269490287?h=8c376062db" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen=""></iframe>
+      </div>
+      <p class="image-caption"><em>Impossible Happens</em> — the personal training platform that let Equinox tell real members' stories for the first time.</p>
+    </div>
+
+    <p class="work-prose">And then there was Firestarter. Group fitness is the lifeblood of Equinox, and giving a new class a stylized, buzzworthy launch is how the brand plants its flag as the leader in high performance. I wrote a lot of these; Firestarter is one of my favorites. The pitch: you've never spent half an hour like this — the next generation of cardio HIIT, every second supercharged, a complete cardio challenge that incinerates your goals in thirty flat. Be glad it's not longer.</p>
+
+    <div class="case-study-image-full">
+      <video src="images/equinox/Firestarter_Social_Cut_03.mp4" autoplay="" muted="" loop="" playsinline="" controls=""></video>
+      <p class="image-caption">Firestarter — a class launch built to feel like an event.</p>
+    </div>
+
+    <p class="work-prose">Beneath the campaigns sat the deeper work: the voice. Equinox has to speak to everyone from fitness hipsters to lovers of pure luxury, often in the same breath, so I helped craft the tone-of-voice guidelines that let the mother brand do exactly that — confident, knowing, a little provocative, never trying too hard. Those guidelines became the foundation that every sub-brand could build from and react against.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/equinox/equinox-mother-brand.jpg" alt="Equinox mother brand voice and tone">
+      <p class="image-caption">The PROJECT sub-brand turned the Equinox brand voice playbook on its head.&nbsp;</p>
+    </div>
+
+    <p class="work-prose">When Equinox launched its first standalone studio, it was time to tear up that rulebook on purpose. I led a team to forge a rebel brand for PROJECT, with a voice that's carefree, unfiltered, and energetic. As copy lead I played a central role in a social presence that still inspires devotion and defies expectations — the brand allowed to say what the mother brand only implies.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/equinox/equinox-project.png" alt="Equinox PROJECT sub-brand">
+      <p class="image-caption">PROJECT's rebel voice embraced spontaneity, creativity, and an always-WIP mindset.&nbsp;</p>
+    </div>
+
+    <p class="work-prose">At the opposite end of the spectrum was E by Equinox. For years it had lived as hyper-exclusive training spaces tucked inside existing clubs — E club was like fight club; you didn't talk about it. As Equinox expanded in London, I helped lead a team to build E by Equinox into a distinct brand for long-term growth, starting with the E St James's club. As copy lead I crafted a voice that's understated, unexpected, and utterly personal.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/equinox/equinox-e-by-equinox.png" alt="E by Equinox brand">
+      <p class="image-caption">E by Equinox — a deliberately quiet, intensely personal voice for the brand's most exclusive tier.</p>
+    </div>
+
+    <p class="work-prose">Finally, after Equinox acquired six existing sports-club facilities, I led a team to create a distinct Equinox Sports Club brand — one that could speak to a more sophisticated member and a more comprehensive offering. The result was a more discerning, more inclusive incarnation of Equinox for a high-powered community: a different set of audience needs, activated by the same high-performance gospel.&nbsp;</p>
+
+    <div class="case-study-image-full">
+      <img src="images/equinox/equinox-sports-club.png" alt="Equinox Sports Club brand">
+      <p class="image-caption">Equinox Sports Club — a more discerning, more comprehensive incarnation of the brand for a high-powered community.</p>
+    </div>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-uniqlo">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry active" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Uniqlo</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Uniqlo</span>
+      <span class="meta-label">Agency</span><span class="meta-value">MP Creative</span>
+      <span class="meta-label">Role</span><span class="meta-value">Brand Strategy, Editor-in-Chief, Creative Direction</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Brand platform, magazine, mission statement, campaign films</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/uniqlo/uniqlo-lifewear-platform.png" alt="Uniqlo LifeWear brand platform">
+      <p class="image-caption">LifeWear — a great idea Uniqlo had never fully explained, turned into a platform and a way of life.</p>
+    </div>
+
+    <p class="work-prose">Uniqlo already had one of the best brand ideas in retail: LifeWear. They'd just never truly explained what it meant. It sat on the brand like a tagline waiting for a definition. Working with Uniqlo's Creative Director, the legendary John Jay, our team set out to give the idea both a meaning and a home — to turn two syllables into something a customer could actually feel.</p>
+
+    <p class="work-prose">The thought that unlocked it was simple: performance wear for your life. Not athletic performance — the performance of an ordinary day, lived well. From that concept I wrote the brand positioning and mission statement for LifeWear, and landed on a line Uniqlo still uses today: Simple Made Better. It said what the brand had always done.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/uniqlo/uniqlo-magazine-cover.png" alt="LifeWear magazine cover">
+      <p class="image-caption">LifeWear magazine — founded to build a world and tell the stories of real people who live the LifeWear ethos.</p>
+    </div>
+
+    <p class="work-prose">A platform needed a place to live, so we founded LifeWear, a quarterly magazine, and I served as its chief editor. The magazine humanized the brand — it put real people, real craft, and real stories where product shots usually go, and let the philosophy of LifeWear come through in how the brand paid attention to the world rather than its claims about itself.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/uniqlo/uniqlo-bathing-ape.png" alt="LifeWear magazine editorial feature">
+      <p class="image-caption"><br></p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/uniqlo/uniqlo-two-covers.png" alt="LifeWear magazine covers">
+      <p class="image-caption"><br></p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/uniqlo/uniqlo-mag-spread.png" alt="LifeWear magazine interior spread">
+      <p class="image-caption"><br></p>
+    </div>
+
+    <p class="work-prose">The other half of the work was emotional rather than editorial. Uniqlo is rightfully proud of its HEATTECH clothing, but a fabric story is hard to make people feel — warmth is an abstraction until it belongs to someone. Collaborating with the Belgian director duo Norman Bates, I provided creative direction and wrote scripts for four films built around true-life heroes empowered by HEATTECH: people like Cate, a skyscraper window washer and single mother who works in the sky to put food on the table.&nbsp;</p>
+
+    <div class="case-study-image-full">
+      <video src="images/uniqlo/uniqlo_heattech_-_cate_v1%20(720p).mp4" autoplay="" muted="" loop="" playsinline="" controls=""></video>
+      <p class="image-caption">HEATTECH, told through Cate — a window washer and single mother.</p>
+    </div>
+
+    <p class="work-prose">The idea across all four films was the freedom you feel when you're less weighed down but warmer than ever — the technology disappearing into the life it makes possible. Each story let the product do its job quietly in the background while a real person did something extraordinary in the cold, which is exactly where a performance fabric earns its keep.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/uniqlo/uniqlo-heattech-architect.png" alt="Uniqlo HEATTECH film spread">
+      <p class="image-caption"><br></p>
+    </div>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-away">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry active" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Away</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Away</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Giant Spoon</span>
+      <span class="meta-label">Role</span><span class="meta-value">Creative Direction, Writing</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Brand purpose, manifesto, campaign, voice + tone guidelines</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/away/away-manifesto-wall.jpg" alt="Away brand manifesto on the office wall">
+      <p class="image-caption">The manifesto Away liked so much they put it on the office walls.</p>
+    </div>
+
+    <p class="work-prose">Away was growing at a fever pitch, and it had outgrown its own category. The company had become famous for a suitcase, but a suitcase is a small thing to be famous for when your ambition is to be the world's number one travel brand. To get there, Away needed to stop being about luggage and start being about travel. Partnering closely with our strategy team, I helped forge a brand purpose around a single insight: any trip, however ordinary, can change how you see the world. That's how Away's brand purpose became, "to transform travel so it can transform you."&nbsp;</p>
+
+    <p class="work-prose">Then I wrote the manifesto that gave the purpose its voice. Away liked it enough to plaster it on their office walls — which is, honestly, the highest compliment a piece of writing can get.</p>
+
+    <p class="work-prose"><br></p>
+
+    <p class="work-prose">But transformative travel was an idea that had to keep moving—so we turned it into a brand campaign: Made for Departure. Four spots, each celebrating how travel opens you up to unexpected paths and quietly rearranges your world. I provided creative direction and writing — and, in the line of duty, had to travel all the way to Mallorca to shoot them. Cue the world's tiniest violin.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/away/away-campaign-mallorca.jpg" alt="Away Made for Departure campaign shot in Mallorca">
+      <p class="image-caption">Made for Departure — four films on how travel changes you, shot in Mallorca.</p>
+    </div>
+
+    <div class="case-study-image-full">
+      <div class="video-embed">
+        <iframe title="vimeo-player" src="https://player.vimeo.com/video/390882508?h=5d4cdf3c9c" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen=""></iframe>
+      </div>
+      <p class="image-caption"><em>Before Sunrise</em> — one of the Made for Departure spots.</p>
+    </div>
+
+
+    <p class="work-prose">The last piece was the one that had to outlast all of us. With a goal as big as becoming the world's number one travel brand, Away was scaling a growing in-house team of copywriters — and a brand voice can't live in one person's head if it's going to survive that. So we crafted copy guidelines that would help that team identify what to say and how to say it. I partnered closely with strategy and directed, edited, and wrote the guidelines, along with the supporting copy that showed them in action.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/away/away-voice-1.png" alt="Away voice and tone guidelines">
+      <p class="image-caption">A roadmap for a trailblazing brand still finding its voice — built for a whole team.</p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/away/away-voice-2.png" alt="Away voice and tone guidelines spread">
+      <p class="image-caption">The guidelines turned a feeling into a method.</p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/away/away-voice-3.png" alt="Away voice and tone guidelines detail">
+      <p class="image-caption">Our muse for the brand voice—we thought of her as Bourdain's little sister.&nbsp;</p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/away/away-voice-4.png" alt="Away voice and tone guidelines example">
+      <p class="image-caption">Detailed explanations broke down the new brand voice, step by step.&nbsp;</p>
+    </div>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-sol-lewitt">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry active" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Sol LeWitt × Microsoft</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Microsoft, with the Sol LeWitt Estate</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Ada</span>
+      <span class="meta-label">Role</span><span class="meta-value">Creative &amp; Editorial Direction</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Concept, editorial direction, AI art experience</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/sol-lewitt/Hero.jpg" alt="Sol LeWitt × Microsoft AI art experience">
+      <p class="image-caption">I creative directed an AI-driven app that turned Sol LeWitt's works into portals — scan the art, unlock the artist.</p>
+    </div>
+
+    <p class="work-prose">Sol LeWitt is one of the most important artists of the postwar era — the conceptual pioneer whose instruction-based wall drawings, executed by other hands from his written rules, anticipated the logic of the digital age decades before it arrived. He is, in a real sense, a forefather of today's generative and digital creativity. The problem is that a new generation mostly doesn't know him. As part of Microsoft's commitment to innovating how we explore art and culture, we set out to fix that.</p>
+
+    <p class="work-prose">Working closely with the design agency Ada, curator Lindsay Aveilhé, and the Sol LeWitt Estate, I helped concept, direct, and launch a new form of digital art experience: an AI-driven app that takes people beyond the museum and into the life, career, and legacy of the artist. My role was creative and editorial direction — shaping what the experience would say about LeWitt, and how it would carry his ideas to an audience meeting them for the first time.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/sol-lewitt/sol-lewitt-artwork-upscaled.jpg" alt="Sol LeWitt artwork">
+      <p class="image-caption">LeWitt's seriality has an instruction-based logic that makes him feel native to the digital age.</p>
+    </div>
+
+    <p class="work-prose">The app turns LeWitt's works into digital portals. Scan a piece with your phone and it unlocks a multimedia journey through his life, his career, and the inspirations behind the work. An interactive map traces his pieces around the world, and an immersive 3D tour lets anyone walk through his Connecticut studio — putting the place where the instructions were written into the hands of people who may never have set foot in a gallery.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/sol-lewitt/sol-lewitt-studio-tour.gif" alt="3D virtual tour of Sol LeWitt's Connecticut studio">
+      <p class="image-caption">An immersive 3D tour of LeWitt's Connecticut studio — the museum experience, beyond museum walls.</p>
+    </div>
+
+    <p class="work-prose">The result was a way of meeting an artist that suits the way this generation actually encounters everything else: through a screen, on demand, by curiosity. It used technology not to replace the art, but to do what LeWitt always did — hand someone a set of instructions and let the work come alive in their hands.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-undercurrent">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+        <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry active" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+        <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Undercurrent</h1>
+
+    <div class="work-meta">
+      <span class="meta-label">Client</span><span class="meta-value">Undercurrent</span>
+      <span class="meta-label">Agency</span><span class="meta-value">Ada</span>
+      <span class="meta-label">Role</span><span class="meta-value">Creative Direction, Scriptwriting</span>
+      <span class="meta-label">Scope</span><span class="meta-value">Immersive exhibition concept, narrative, scripts</span>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/undercurrent/undercurrent-4.jpg" alt="Undercurrent immersive artwork">
+      <p class="image-caption"><span id="docs-internal-guid-b4f7a283-7fff-0e52-197e-a60301f3a5c1"></span></p><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style="font-size: 10pt; font-family: &quot;Helvetica Neue&quot;, sans-serif; color: rgb(0, 0, 0); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Undercurrent — a boundary-pushing exhibition offering new visions for climate action.</span></p><p></p>
+    </div>
+
+    <p class="work-prose">To inspire action, you first have to change perception. The climate crisis suffers from a strange kind of invisibility — too vast, too slow, too statistical to feel — and the usual responses, fear and guilt, tend to make people look away rather than lean in. Undercurrent was built to do the opposite: to make the crisis something you could walk into, feel, and leave changed by.</p>
+
+    <p class="work-prose">The exhibition brought together more than forty musicians, artists, creatives, and nonprofit partners to present immersive artworks designed to provoke real reactions to the climate crisis — and, crucially, to empower the people who came to participate in a better future rather than mourn a worse one. Visitors could explore the ocean with Nosaj Thing, search for pollen with Bon Iver, reconnect to nature with Aluna, and move through dozens of other worlds in between.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/undercurrent/undercurrent-brooklyn.jpg" alt="Undercurrent immersive climate art exhibition in Brooklyn">
+      <p class="image-caption">Each installation explored the themes of climate crisis, science and creativity from a different angle.</p>
+    </div>
+
+    <p class="work-prose">As creative director and scriptwriter, my work was to find the thread running through all of it — to give a sprawling collection of immersive pieces a shared voice and a coherent emotional arc, so that the experience built toward empowerment instead of dissipating into spectacle. The scripts had to honor each artist's vision while keeping the whole exhibition pointed at the same conviction: that creativity can change how we see, and changing how we see is where action begins.</p>
+
+    <div class="case-study-image-full">
+      <img src="images/undercurrent/undercurrent-3.jpg" alt="Undercurrent exhibition installation">
+      <p class="image-caption">Explore the ocean with Nosaj Thing, search for pollen with Bon Iver, or reconnect with nature with Aluna.</p>
+    </div>
+
+    <div class="case-study-image-full">
+      <img src="images/undercurrent/undercurrent-5.jpg" alt="Undercurrent visitor experience">
+      <p class="image-caption">The exhibitions' goal was agency — sending people out in the world ready to engage and take action.</p>
+    </div>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-on-acid">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+    <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry active" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">On Acid: A Field Guide to Altered States</h1>
+
+    <div class="case-study-image-full">
+      <div class="pdf-embed">
+        <iframe src="https://drive.google.com/file/d/1v6N7x8I5RSvrEGO3sRluW_DU2JCZT_n2/preview" width="640" height="480" allow="autoplay"></iframe>
+      </div>
+      <p class="image-caption">On Acid: A Field Guide to Altered States — John Moeller &amp; William Rauscher, 2011.</p>
+    </div>
+
+    <p class="work-prose"><em>On Acid: A Field Guide to Altered States</em> is a 2011 experimental softcover publication by John Moeller and William Rauscher that explores humanity's engagement with altered states of consciousness. Tracing a historical line from Benjamin Blood's 1874 nitrous oxide writings through figures like William James and Timothy Leary to modern art, the book features contributions and archival texts from notable thinkers and artists including Albert Hofmann, Aldous Huxley, and Alan Watts.</p>
+
+    <p class="work-prose">Disentangled from familiar cultural contexts, <em>On Acid</em> is an experimental program, an acidic editorial process that mirrors the deconstructive relations to counterculture cultivated in contemporary art. The book concludes with a series of new conversations with Freeman and Lowe, Hamilton Morris, and Arik Roper.</p>
+
+  </main>
+
+</div>
+</section>
+
+<section class="page" id="page-earthseed">
+<div class="site-wrapper">
+
+  <!-- ── NARROW COLUMN ── -->
+  <nav class="col-narrow" aria-label="Site index">
+
+    <a class="site-name" href="#page-about">William Rauscher</a>
+
+    <div class="index-section">
+      <span class="index-section-label">Method</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-method-brand-as-dialogue">Brand as Dialogue</a></li>
+        <li><a class="index-entry" href="#page-method-brand-as-loop">Brand as Loop</a></li>
+        <li><a class="index-entry" href="#page-method-trust-engine">The Trust Engine</a></li>
+        <li><a class="index-entry" href="#page-method-art-of-the-prompt">The Art of the Prompt</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Work</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry" href="#page-sandals">Sandals Resorts</a></li>
+        <li><a class="index-entry" href="#page-benefit">Benefit Cosmetics</a></li>
+        <li><a class="index-entry" href="#page-freshfields">Freshfields</a></li>
+        <li><a class="index-entry" href="#page-cvent">Cvent</a></li>
+        <li><a class="index-entry" href="#page-jj">Johnson &amp; Johnson</a></li>
+        <li><a class="index-entry" href="#page-amex">American Express</a></li>
+        <li><a class="index-entry" href="#page-hbo">HBO</a></li>
+        <li><a class="index-entry" href="#page-equinox">Equinox</a></li>
+        <li><a class="index-entry" href="#page-uniqlo">Uniqlo</a></li>
+        <li><a class="index-entry" href="#page-away">Away</a></li>
+        <li><a class="index-entry" href="#page-sol-lewitt">Sol LeWitt × Microsoft</a></li>
+        <li><a class="index-entry" href="#page-undercurrent">Undercurrent</a></li>
+      </ul>
+    </div>
+
+    <div class="index-section">
+      <span class="index-section-label">Projects</span>
+      <ul class="index-list" role="list">
+        <li><a class="index-entry external-link" href="https://williamrauscher.substack.com" target="_blank" rel="noopener">Substack ↗</a></li>
+        <li><a class="index-entry" href="#page-on-acid">On Acid: A Field Guide to Altered States</a></li>
+        <li><a class="index-entry active" href="#page-earthseed">Earthseed Design</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <!-- ── WIDE COLUMN ── -->
+  <main class="col-wide">
+
+    <h1 class="work-title">Earthseed Design</h1>
+
+    <a class="essay-markdown-link" href="https://github.com/williamrauscher-cos/Earthseed/blob/main/EARTHSEED_DESIGN_SYSTEM.md" target="_blank" rel="noopener">Github ↗</a>
+
+    <p class="work-prose">My artistic practice is powered by collisions between technology and literature. I treat literature as a language system and apply intelligent tools that open up new layers of meaning and scramble the divides between author, work and audience.&nbsp;</p>
+
+    <p class="work-prose">For the Earthseed Design System, I applied the form and logic of the markdown file to create a machine-readable instruction manual based on the narrative worlds of Octavia Butler's speculative fictional novels, <em>Parable of the Sower</em> and <em>Parable of the Talents</em>. In the <em>Parable</em> novels Butler crafted a religion — Earthseed, whose one certainty is that God is Change — and left it as scripture and instruction. Earthseed Design asks a designer's question of it: if a belief had to spread across broken, scattered communities with no head office and no budget, what would its design system have to be?</p>
+
+    <p class="work-prose">The answer is the Earthseed Design System. I used an LLM agent to scan the entire text of the first Parable novel and extract the rules and principles that would allow anyone to build their own Earthseed world—including founding their own community, just as the novel's protagonist does. The design system provides the tools that keep Earthseed recognizable from one community to the next: a creative position, doctrine read as a design constraint, and specifications for color and typography. It is written for people with no access to industrial production, built for portability and survival. There is no license and no central authority — anyone holding the document already has permission to use it.</p>
+
+    <p class="work-prose">Like a Sol LeWitt certificate, the document <em>is</em> the work: a set of instructions written once and executed by many hands. For example, you can use it to design a logo, a religious pamphlet, a water barrel for your Earthseed community, or an approach to your community's funeral rites. The Earthseed Design System also fulfills one of the missions native to the Parable story: to keep spreading knowledge and practice of Earthseed.</p>
+
+    <p class="work-prose">Earthseed Design System is made for a world that has to improvise — and the clearest way I know to show what a design system is actually for: the smallest shared language that lets a thing stay recognizably itself while every hand that touches it makes it their own.</p>
+
+  </main>
+
+</div>
+</section>
+
+<script>
+(function () {
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+  function show(id) {
+    var target = document.getElementById(id) || document.getElementById('page-about');
+    pages.forEach(function (p) { p.classList.toggle('active', p === target); });
+    window.scrollTo(0, 0);
+  }
+  function route() {
+    var h = location.hash.replace('#', '');
+    if (h && h.indexOf('page-') === 0) show(h);
+    else show('page-about');
+  }
+  window.addEventListener('hashchange', route);
+  // dead project links: do nothing on click
+  document.querySelectorAll('a.index-entry[href="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); });
+  });
+  route();
+})();
+</script>
+
+
+</body></html>
