@@ -1,12 +1,12 @@
 ---
-Title: Brand as Dialogue
+Title: The Dialogue Model
 Author: William Rauscher
 Source: Williamrauscher.com
 Publication Date: 9-4-2026
 Publisher: COSIMA
 ---
 
-# Brand as Dialogue
+# The Dialogue Model
 
 *Want to connect more deeply with your audience? Let's talk.*
 
