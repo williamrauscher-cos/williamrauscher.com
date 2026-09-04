@@ -1,3 +1,11 @@
+---
+Title: The Art of the Prompt
+Author: William Rauscher
+Source: Williamrauscher.com
+Publication Date: 9-4-2026
+Publisher: COSIMA
+---
+
 # The Art of the Prompt
 
 *How to direct creativity by giving up control*

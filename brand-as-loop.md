@@ -1,3 +1,11 @@
+---
+Title: Brand as Loop
+Author: William Rauscher
+Source: Williamrauscher.com
+Publication Date: 9-4-2026
+Publisher: COSIMA
+---
+
 # Brand as Loop
 
 *Why the most effective brands keep going in circles.*

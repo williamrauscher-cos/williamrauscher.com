@@ -1,3 +1,11 @@
+---
+Title: The Trust Engine
+Author: William Rauscher
+Source: Williamrauscher.com
+Publication Date: 9-4-2026
+Publisher: COSIMA
+---
+
 # The Trust Engine
 
 *You see a machine. I see a promise keeper.*
