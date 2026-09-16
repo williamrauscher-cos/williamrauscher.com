@@ -2543,7 +2543,7 @@ body {
   }
   function show(id) {
     if (protectedPages[id] && !hasAuth()) {
-      location.href = protectedPages[id];
+      location.replace(protectedPages[id]);
       return;
     }
     var target = document.getElementById(id) || document.getElementById('page-about');
