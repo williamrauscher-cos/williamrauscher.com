@@ -1,7 +1,9 @@
 const PASSWORD = 'teamyoccer';
 const COOKIE_NAME = 'wr_auth';
 
-function passwordPage(error) {
+const PROTECTED_PATHS = ['/sandals', '/benefit', '/freshfields', '/cvent', '/jj'];
+
+function passwordPage(error, returnTo) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,6 +84,7 @@ body {
 <body>
 <form class="gate" method="POST">
   <h1>William Rauscher</h1>
+  <input type="hidden" name="return_to" value="${returnTo}">
   <input type="password" name="password" placeholder="Password" autofocus>
   <button type="submit">Enter</button>
   ${error ? '<p class="error">Incorrect password</p>' : ''}
@@ -90,8 +93,18 @@ body {
 </html>`;
 }
 
+function isProtected(pathname) {
+  const clean = pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+  return PROTECTED_PATHS.includes(clean);
+}
+
 export async function onRequest(context) {
   const { request, next } = context;
+  const url = new URL(request.url);
+
+  if (!isProtected(url.pathname)) {
+    return next();
+  }
 
   const cookie = request.headers.get('Cookie') || '';
   if (cookie.includes(`${COOKIE_NAME}=authenticated`)) {
@@ -101,26 +114,25 @@ export async function onRequest(context) {
   if (request.method === 'POST') {
     const formData = await request.formData();
     const password = formData.get('password');
+    const returnTo = formData.get('return_to') || url.pathname;
 
     if (password === PASSWORD) {
-      const url = new URL(request.url);
-      const response = new Response(null, {
+      return new Response(null, {
         status: 302,
         headers: {
-          'Location': url.pathname + url.search + url.hash,
-          'Set-Cookie': `${COOKIE_NAME}=authenticated; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=604800`,
+          'Location': returnTo,
+          'Set-Cookie': `${COOKIE_NAME}=authenticated; Path=/; Secure; SameSite=Strict; Max-Age=604800`,
         },
       });
-      return response;
     }
 
-    return new Response(passwordPage(true), {
+    return new Response(passwordPage(true, url.pathname), {
       status: 401,
       headers: { 'Content-Type': 'text/html' },
     });
   }
 
-  return new Response(passwordPage(false), {
+  return new Response(passwordPage(false, url.pathname), {
     status: 401,
     headers: { 'Content-Type': 'text/html' },
   });

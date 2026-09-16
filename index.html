@@ -2531,7 +2531,21 @@ body {
 <script>
 (function () {
   var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+  var protectedPages = {
+    'page-sandals': '/sandals',
+    'page-benefit': '/benefit',
+    'page-freshfields': '/freshfields',
+    'page-cvent': '/cvent',
+    'page-jj': '/jj'
+  };
+  function hasAuth() {
+    return document.cookie.indexOf('wr_auth=authenticated') !== -1;
+  }
   function show(id) {
+    if (protectedPages[id] && !hasAuth()) {
+      location.href = protectedPages[id];
+      return;
+    }
     var target = document.getElementById(id) || document.getElementById('page-about');
     pages.forEach(function (p) { p.classList.toggle('active', p === target); });
     window.scrollTo(0, 0);
